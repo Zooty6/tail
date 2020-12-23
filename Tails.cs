@@ -8,9 +8,6 @@ namespace Tail
     public class Tails
     {
         private const string TableRowPattern = @"^\|\s*(?<streamer>\w+)\s*\|\s*(?<tail>.+)\s*\|$";
-        private readonly string[] tailInitContent;
-        private readonly Dictionary<string, string> streamerTails = new Dictionary<string, string>();
-        private readonly Dictionary<string, int> summary = new Dictionary<string, int>();
 
         private const string Template = @"# Tails  
 | twitch name      | tail     |
@@ -22,6 +19,10 @@ namespace Tail
 |:--------------|------:|
 @@summary
 ";
+
+        private readonly Dictionary<string, string> streamerTails = new Dictionary<string, string>();
+        private readonly Dictionary<string, int> summary = new Dictionary<string, int>();
+        private readonly string[] tailInitContent;
 
         public Tails(string[] tailInitContent)
         {
@@ -57,15 +58,11 @@ namespace Tail
             if (tail.Trim() != "-" && !streamerTails.ContainsKey(streamer))
             {
                 if (summary.ContainsKey(tail))
-                {
                     summary[tail]++;
-                }
                 else
-                {
                     summary[tail] = 1;
-                }
             }
-            
+
             streamerTails[streamer] = tail;
         }
 
@@ -76,21 +73,22 @@ namespace Tail
 
             var streamerKeys = streamerTails.Keys.ToList();
             streamerKeys.Sort();
-            
+
             foreach (var key in streamerKeys)
-            {
                 streamerTailTable += $"| {key} | {streamerTails[key]} |{Environment.NewLine}";
-            }
 
             var summaryList = summary.ToList();
             summaryList.Sort((pair1, pair2) => pair2.Value.CompareTo(pair1.Value));
 
-            foreach (var (key, value) in summaryList)
-            {
-                summaryTable += $"| {key} | {value} |{Environment.NewLine}";
-            }
+            foreach (var (key, value) in summaryList) summaryTable += $"| {key} | {value} |{Environment.NewLine}";
 
             return Template.Replace("@@tails", streamerTailTable).Replace("@@summary", summaryTable);
+        }
+
+
+        public string GetTailOfUser(string streamer)
+        {
+            return streamerTails.ContainsKey(streamer) ? streamerTails[streamer] : null;
         }
     }
 }

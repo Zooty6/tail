@@ -10,35 +10,37 @@ namespace Tail
     {
         private static void Main(string[] args)
         {
-            var location = File.ReadAllText(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Tail.ini"));
+            var location =
+                File.ReadAllText(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+                    "Tail.ini"));
             var tailString = File.ReadAllLines(location);
             var tails = new Tails(tailString);
-            
+
             Parser.Default.ParseArguments<CommandOptions>(args)
                 .WithParsed(options =>
                 {
                     if (options.Question)
-                    {
                         Console.Out.WriteLine("If you could have a tail irl, what kind of tail would you get?");
-                    }
-            
+
                     if (options.AddingParameters != null)
                     {
                         var addingParameterList = options.AddingParameters.ToList();
-                        for (var i = 0; i < addingParameterList.Count; i+=2)
-                        {
+                        for (var i = 0; i < addingParameterList.Count; i += 2)
                             if (i + 1 < addingParameterList.Count)
-                            {
-                                tails.AddTail(addingParameterList[i], addingParameterList[i+1]);
-                            }
+                                tails.AddTail(addingParameterList[i], addingParameterList[i + 1]);
                             else
-                            {
                                 tails.AddTail(addingParameterList[i]);
-                            }
-                        }
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(options.User))
+                    {
+                        var tailOfUser = tails.GetTailOfUser(options.User);
+                        Console.Out.WriteLine(tailOfUser != null
+                            ? $"{options.User} has chosen the tail of a(n) {tailOfUser}."
+                            : $"{options.User} has no tail yet.");
                     }
                 });
-            
+
             File.WriteAllText(location, tails.ToString());
         }
     }
