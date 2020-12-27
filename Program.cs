@@ -20,7 +20,11 @@ namespace Tail
                 .WithParsed(options =>
                 {
                     if (options.Question)
-                        Console.Out.WriteLine("If you could have a tail irl, what kind of tail would you get?");
+                    {
+                        const string question = "If you could have a tail irl, what kind of tail would you get?";
+                        Console.Out.WriteLine(question);
+                        Clipboard.Clipboard.Copy(question);
+                    }
 
                     if (options.AddingParameters != null)
                     {
