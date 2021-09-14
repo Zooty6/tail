@@ -43,6 +43,10 @@ namespace Tail
                             ? $"{options.User} has chosen the tail of a(n) {tailOfUser}."
                             : $"{options.User} has no tail yet.");
                     }
+
+                    if (options.List != null) Console.Out.WriteLine(tails.GetList(options.List));
+
+                    if (options.ListAll) Console.Out.WriteLine(tails.GetList());
                 });
 
             File.WriteAllText(location, tails.ToString());

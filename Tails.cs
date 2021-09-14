@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Tail.ListRenderer;
 
 namespace Tail
 {
@@ -22,6 +23,7 @@ namespace Tail
 
         private readonly Dictionary<string, string> streamerTails = new Dictionary<string, string>();
         private readonly Dictionary<string, int> summary = new Dictionary<string, int>();
+        private readonly IListRenderer<string> listRendererEngine;
         private readonly string[] tailInitContent;
 
         public Tails(string[] tailInitContent)
@@ -51,6 +53,8 @@ namespace Tail
                     AddTail(streamer, tail);
                 }
             }
+
+            listRendererEngine = new PlainListRenderer<string>(summary);
         }
 
         public void AddTail(string streamer, string tail = "-")
@@ -89,6 +93,16 @@ namespace Tail
         public string GetTailOfUser(string streamer)
         {
             return streamerTails.ContainsKey(streamer) ? streamerTails[streamer] : null;
+        }
+
+        public string GetList()
+        {
+            return listRendererEngine.Render();
+        }
+
+        public string GetList(IEnumerable<string> tailName)
+        {
+            return listRendererEngine.Render(tailName);
         }
     }
 }
