@@ -18,12 +18,12 @@ namespace Tail
         [Option('s', "streamer", HelpText = "Returns what tail the given streamer chose.")]
         public string User { get; set; }
 
-        [Option('l', "list",
-            HelpText = "Returns the list of choice numbers of the given tails.",
+        [Option('c', "count",
+            HelpText = "Returns the number of time this tail has been chosen.",
             Required = false)]
         public IEnumerable<string> List { get; set; }
 
-        [Option('á', "listall", HelpText = "Returns all the tail choices and their numbers")]
+        [Option('l', "list", HelpText = "Returns all the tail choices and their numbers")]
         public bool ListAll { get; set; }
     }
 }

@@ -31,9 +31,16 @@ namespace Tail
                         var addingParameterList = options.AddingParameters.ToList();
                         for (var i = 0; i < addingParameterList.Count; i += 2)
                             if (i + 1 < addingParameterList.Count)
+                            {
                                 tails.AddTail(addingParameterList[i], addingParameterList[i + 1]);
+                                Console.Out.WriteLine(
+                                    $"{addingParameterList[i + 1]} tail has been added to {addingParameterList[i]}!");
+                            }
                             else
+                            {
                                 tails.AddTail(addingParameterList[i]);
+                                Console.Out.WriteLine($"{addingParameterList[i]} has been added to the boring list!");
+                            }
                     }
 
                     if (!string.IsNullOrWhiteSpace(options.User))
