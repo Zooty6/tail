@@ -104,5 +104,10 @@ namespace Tail
         {
             return listRendererEngine.Render(tailName);
         }
+
+        public int GetNumberOfTails(string tail)
+        {
+            return summary.ContainsKey(tail) ? summary[tail] : 0;
+        }
     }
 }

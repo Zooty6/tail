@@ -34,7 +34,7 @@ namespace Tail
                             {
                                 tails.AddTail(addingParameterList[i], addingParameterList[i + 1]);
                                 Console.Out.WriteLine(
-                                    $"{addingParameterList[i + 1]} tail has been added to {addingParameterList[i]}!");
+                                    $"{addingParameterList[i + 1]} tail has been added to {addingParameterList[i]}, raising the number to {tails.GetNumberOfTails(addingParameterList[i + 1])}!");
                             }
                             else
                             {
