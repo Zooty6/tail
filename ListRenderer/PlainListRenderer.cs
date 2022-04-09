@@ -15,7 +15,9 @@ namespace Tail.ListRenderer
 
         public string Render()
         {
-            return list.Aggregate("",
+            var sortedList = from entry in list orderby entry.Value descending select entry;
+
+            return sortedList.Aggregate("",
                 (current, keyValuePair) =>
                     current + keyValuePair.Key + "\t" + keyValuePair.Value + Environment.NewLine);
         }
