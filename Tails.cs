@@ -54,7 +54,7 @@ namespace Tail
                 }
             }
 
-            listRendererEngine = new PlainListRenderer<string>(summary);
+            listRendererEngine = new BoxListRenderer<string>(summary);
         }
 
         public void AddTail(string streamer, string tail = "-")
@@ -100,9 +100,9 @@ namespace Tail
             return listRendererEngine.Render();
         }
 
-        public string GetList(IEnumerable<string> tailName)
+        public string GetList(IEnumerable<string> tailNames)
         {
-            return listRendererEngine.Render(tailName);
+            return listRendererEngine.Render(tailNames);
         }
 
         public int GetNumberOfTails(string tail)

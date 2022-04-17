@@ -26,7 +26,7 @@ namespace Tail
                         Clipboard.Clipboard.Copy(question);
                     }
 
-                    if (options.AddingParameters != null)
+                    if (options.AddingParameters != null && options.AddingParameters.Any())
                     {
                         var addingParameterList = options.AddingParameters.ToList();
                         for (var i = 0; i < addingParameterList.Count; i += 2)
@@ -51,7 +51,7 @@ namespace Tail
                             : $"{options.User} has no tail yet.");
                     }
 
-                    if (options.List != null) Console.Out.WriteLine(tails.GetList(options.List));
+                    if (options.List != null && options.List.Any()) Console.Out.WriteLine(tails.GetList(options.List));
 
                     if (options.ListAll) Console.Out.WriteLine(tails.GetList());
                 });
