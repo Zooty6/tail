@@ -65,12 +65,25 @@ namespace Tail
                     tails.AddTail(addingParameterList[i], addingParameterList[i + 1]);
                     Console.Out.WriteLine(
                         $"{addingParameterList[i + 1]} tail has been added to {addingParameterList[i]}, raising the number to {tails.GetNumberOfTails(addingParameterList[i + 1])}!");
+                    Clipboard.Clipboard.Copy(
+                        $"You are the {PrintNumberWithOrdinal(tails.GetNumberOfTails(addingParameterList[i + 1]))} streamer picking a {addingParameterList[i + 1]} tail");
                 }
                 else
                 {
                     tails.AddTail(addingParameterList[i]);
                     Console.Out.WriteLine($"{addingParameterList[i]} has been added to the boring list!");
                 }
+        }
+
+        private static string PrintNumberWithOrdinal(int number)
+        {
+            return (number % 10) switch
+            {
+                1 => $"{number}st",
+                2 => $"{number}nd",
+                3 => $"{number}rd",
+                _ => $"{number}th"
+            };
         }
 
         private static void SearchUser(Tails tails, string user)
