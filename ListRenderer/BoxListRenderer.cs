@@ -14,6 +14,10 @@ namespace Tail.ListRenderer
         private const string BottomRightCorner = "╝";
         private const string Horizontal = "═";
         private const string Vertical = "║";
+        private const string LeftMiddle = "╠";
+        private const string RightMiddle = "╣";
+        private const string Middle = "╬";
+        private const string AllText = "All";
 
         private readonly Dictionary<T, int> list;
 
@@ -25,12 +29,22 @@ namespace Tail.ListRenderer
         public string Render()
         {
             var maxKeyLength = MaxLengthOfStrings(list.Keys);
-            var maxValueLength = MaxLengthOfInts(list.Values);
+            var maxValueLength = CountAll().ToString().Length + 2;
             var sortedList = from entry in list orderby entry.Value descending select entry;
             // TOP
             var str = TopLeftCorner + string.Concat(Enumerable.Repeat(Horizontal, maxKeyLength)) + TopMiddle +
                       string.Concat(Enumerable.Repeat(Horizontal, maxValueLength)) + TopRightCorner +
                       Environment.NewLine;
+            // ALL COUNT
+            str += Vertical + " " + AllText +
+                   string.Concat(Enumerable.Repeat(" ", maxKeyLength - AllText.Length - 1)) +
+                   Vertical +
+                   string.Concat(Enumerable.Repeat(" ", maxValueLength - CountAll().ToString().Length - 1)) +
+                   CountAll() + " " + Vertical + Environment.NewLine;
+            // HEADER BORDER
+            str += LeftMiddle + string.Concat(Enumerable.Repeat(Horizontal, maxKeyLength)) + Middle +
+                   string.Concat(Enumerable.Repeat(Horizontal, maxValueLength)) + RightMiddle +
+                   Environment.NewLine;
             // CONTENT
             str += sortedList.Aggregate("",
                 (current, keyValuePair) =>
@@ -44,6 +58,11 @@ namespace Tail.ListRenderer
                    string.Concat(Enumerable.Repeat(Horizontal, maxValueLength)) + BottomRightCorner;
 
             return str;
+        }
+
+        private int CountAll()
+        {
+            return list.Sum(pair => pair.Value);
         }
 
         public string Render(IEnumerable<T> keys)
